@@ -296,7 +296,7 @@ final class VISER_Elementor {
 	 * @access public 
 	 */
 	public function widget_styles(){
-		wp_enqueue_style('fx-css',plugins_url('assets/css/style.css',__FILE__));
+		wp_enqueue_style('main-css',plugins_url('assets/css/style.css',__FILE__));
 	}
 
 	/**
@@ -307,7 +307,7 @@ final class VISER_Elementor {
 	 * @access public 
 	 */
 	public function widget_scripts(){
-		wp_enqueue_script('fxscript',plugins_url('assets/js/script.js',__FILE__),array('jquery'),time(),true);
+		wp_enqueue_script('main-script',plugins_url('assets/js/script.js',__FILE__),array('jquery'),time(),true);
 	}
 
 
