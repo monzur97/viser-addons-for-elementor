@@ -173,10 +173,10 @@ final class VISER_Elementor {
 	public function init_widgets() {
 
 		// Include Widget files
-		// require_once( __DIR__ . '/widgets/fx-posts.php' );
+		require_once( __DIR__ . '/widgets/filter-gallery.php' );
 
 		// Register widget
-		// \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Fx_Posts() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Filter_Gallery() );
 
 	}
 
