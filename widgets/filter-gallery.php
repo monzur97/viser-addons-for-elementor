@@ -142,7 +142,7 @@ class Filter_Gallery extends \Elementor\Widget_Base {
 
 
 		$this->add_control(
-			'list',
+			'fg_list',
 			[
 				'type' => \Elementor\Controls_Manager::REPEATER,
 				'fields' => $repeater->get_controls(),
@@ -183,31 +183,48 @@ class Filter_Gallery extends \Elementor\Widget_Base {
                 <div class="col-12@sm filters-group-wrap">
                     <div class="filters-group m-auto">
                         <div class="btn-group filter-options">
-                            <button class="btn btn--primary" data-group="space">Space</button>
-                            <button class="btn btn--primary" data-group="nature">Nature</button>
-                            <button class="btn btn--primary" data-group="animal">Animal</button>
-                            <button class="btn btn--primary" data-group="city">City</button>
+                        <?php
+                            $fg_gallerycontrols             = array_column( $settings['fg_list'], 'fg_list_control' );
+                            $fg_controls_comma_separated = implode( ', ', $fg_gallerycontrols );
+                            $fg_controls_array           = explode( ",",$fg_controls_comma_separated );
+                            $fg_controls_lowercase       = array_map( 'strtolower', $fg_controls_array );
+                            $fg_controls_remove_space    = array_filter( array_map( 'trim', $fg_controls_lowercase ) );
+                            $fg_controls_items           = array_unique( $fg_controls_remove_space );
+
+                            foreach( $fg_controls_items as $control ) :
+                                $control_attribute = preg_replace( '#[ -]+#', '-', $control );
+                                echo '<button class="btn btn--primary" data-filter=".'.esc_attr( $control_attribute ).'">'.esc_html( $control ).'</button>';
+                            endforeach;
+                        ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="container">
+        <div class="container mt-5">
             <div id="grid" class="row my-shuffle-container">
-                <figure class="col-3@xs col-4@sm col-3@md picture-item" data-groups='["nature"]' data-date-created="2017-04-30" data-title="Lake Walchen">
-                    <div class="picture-item__inner">
-                        <div class="aspect aspect--16x9">
-                            <div class="aspect__inner">
-                                <img src="https://images.unsplash.com/photo-1493585552824-131927c85da2?ixlib=rb-0.3.5&auto=format&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=284&h=160&fit=crop&s=6ef0f8984525fc4500d43ffa53fe8190" srcset="https://images.unsplash.com/photo-1493585552824-131927c85da2?ixlib=rb-0.3.5&auto=format&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=284&h=160&fit=crop&s=6ef0f8984525fc4500d43ffa53fe8190 1x, https://images.unsplash.com/photo-1493585552824-131927c85da2?ixlib=rb-0.3.5&auto=format&q=55&fm=jpg&dpr=2&crop=entropy&cs=tinysrgb&w=284&h=160&fit=crop&s=6ef0f8984525fc4500d43ffa53fe8190 2x" alt="A deep blue lake sits in the middle of vast hills covered with evergreen trees" />
+            <?php
+            if ( $settings['fg_list'] ) {
+                foreach (  $settings['fg_list'] as $item ) {
+                    ?>
+                    <figure class="col-3@xs col-4@sm col-3@md picture-item" data-groups='["design"]' data-date-created="2017-04-30" data-title="Lake Walchen">
+                        <div class="picture-item__inner">
+                            <div class="aspect aspect--16x9">
+                                <div class="aspect__inner">
+                                    <?php echo '<img src="' . $item['fg_image']['url'] . '">'; ?>
+                                </div>
+                            </div>
+                            <div class="picture-item__details">
+                                <figcaption class="picture-item__title"><a href="https://unsplash.com/photos/zshyCr6HGw0" target="_blank" rel="noopener">Lake Walchen</a></figcaption>
+                                <p class="picture-item__tags hidden@xs">nature</p>
                             </div>
                         </div>
-                        <div class="picture-item__details">
-                            <figcaption class="picture-item__title"><a href="https://unsplash.com/photos/zshyCr6HGw0" target="_blank" rel="noopener">Lake Walchen</a></figcaption>
-                            <p class="picture-item__tags hidden@xs">nature</p>
-                        </div>
-                    </div>
-                </figure>
+                    </figure>
+                    <?php
+                }
+            }
+            ?>
             
                 <div class="col-1@sm col-1@xs my-sizer-element"></div>
             </div>
