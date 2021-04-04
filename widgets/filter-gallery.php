@@ -79,11 +79,86 @@ class Filter_Gallery extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => __( 'Layout', 'viser-addons-for-elementor' ),
+				'label' => __( 'Items', 'viser-addons-for-elementor' ),
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
 
+        $repeater = new \Elementor\Repeater();
+
+        $repeater->add_control(
+			'fg_list_title', [
+				'label' => __( 'Title', 'viser-addons-for-elementor' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'List Title' , 'viser-addons-for-elementor' ),
+				'label_block' => true,
+			]
+		);
+
+		$repeater->add_control(
+			'fg_list_content', [
+				'label' => __( 'Content', 'viser-addons-for-elementor' ),
+				'type' => \Elementor\Controls_Manager::WYSIWYG,
+				'default' => __( 'List Content' , 'viser-addons-for-elementor' ),
+				'show_label' => false,
+			]
+		);
+
+        $repeater->add_control(
+			'fg_list_control', [
+				'label' => __( 'Control Name', 'viser-addons-for-elementor' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( '' , 'viser-addons-for-elementor' ),
+				'placeholder' => __( 'design, branding' , 'viser-addons-for-elementor' ),
+				'label_block' => true,
+			]
+		);
+
+        $repeater->add_control(
+			'fg_image',
+			[
+				'label' => __( 'Choose Image', 'viser-addons-for-elementor' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' => \Elementor\Utils::get_placeholder_image_src(),
+				],
+			]
+		);
+
+        $repeater->add_control(
+			'fg_website_link',
+			[
+				'type' => \Elementor\Controls_Manager::URL,
+				'placeholder' => __( 'https://your-link.com', 'viser-addons-for-elementor' ),
+				'show_external' => true,
+				'default' => [
+					'url' => '',
+					'is_external' => true,
+					'nofollow' => true,
+				],
+			]
+		);
+
+
+
+		$this->add_control(
+			'list',
+			[
+				'type' => \Elementor\Controls_Manager::REPEATER,
+				'fields' => $repeater->get_controls(),
+				'default' => [
+					[
+						'fg_list_title' => __( 'Gallery item title', 'viser-addons-for-elementor' ),
+						'fg_list_content' => __( 'Lorem ipsum dolor sit amet.', 'viser-addons-for-elementor' ),
+					],
+					[
+						'fg_list_title' => __( 'Gallery item title', 'viser-addons-for-elementor' ),
+						'fg_list_content' => __( 'Lorem ipsum dolor sit amet.', 'viser-addons-for-elementor' ),
+					],
+				],
+				'title_field' => '{{{ fg_list_title }}}',
+			]
+		);
 
 		$this->end_controls_section();
 		// end layout section   
