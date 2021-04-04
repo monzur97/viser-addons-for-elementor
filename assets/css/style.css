@@ -1,3 +1,10 @@
+/**
+* common css 
+*/
+.text-center{
+  text-align: center;
+}
+
 /*
   Shuffle needs either relative or absolute positioning on the container
   It will set it for you, but it'll cause another style recalculation and layout.
